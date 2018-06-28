@@ -20,6 +20,7 @@ try:
     from django.core.paginator import Page
     from django.db.models.query import QuerySet
     from django.db.models.fields.files import ImageFieldFile, FileField
+    import uuid
 except ImportError:
     raise RuntimeError('django is required in django simple serializer')
 
@@ -84,7 +85,10 @@ class Serializer(object):
                             obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
                 else:
                     if self.check_attr(field.name) and hasattr(data, field.name):
-                        obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
+                        if isinstance(getattr(data, field.name), uuid.UUID):
+                            obj_dict[field.name] = ''.join(str(getattr(data, field.name)).split('-'))
+                        else:
+                            obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
             for field in concrete_model._meta.many_to_many:
                 if self.check_attr(field.name) and self.many:
                     obj_dict[field.name] = self.data_inspect(getattr(data, field.name))
