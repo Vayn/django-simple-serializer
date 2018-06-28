@@ -41,7 +41,12 @@ Python >= 3
 
 Install using pip:
 
-    pip install django-simple-serializer
+###### 原版
+* pip install django-simple-serializer 
+###### 此分支
+* git+https://github.com/zxh326/django-simple-serializer.git  
+
+    
 
 ## 使用 django simple serializer 进行开发
 ### 序列化Django data
